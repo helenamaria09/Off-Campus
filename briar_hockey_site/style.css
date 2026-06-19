@@ -1,0 +1,183 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+* { 
+    box-sizing: border-box; 
+    margin: 0; 
+    padding: 0; 
+    -webkit-user-select: none;  
+    -moz-user-select: none;     
+    -ms-user-select: none;      
+    user-select: none;          
+}
+
+img {
+    pointer-events: none;
+}
+
+/* ==========================================
+   CONFIGURAÇÃO GLOBAL (FIM DA BARRINHA)
+   ========================================== */
+body, html {
+    width: 100%; height: 100%;
+    font-family: 'Press Start 2P', monospace;
+    background-color: #030712;
+    color: #fff;
+    overflow: hidden; /* REMOVE A BARRA DE ROLAGEM GLOBAL DA TELA */
+}
+
+.pixel-text {
+    font-family: 'Press Start 2P', monospace;
+    text-transform: uppercase;
+}
+
+/* Gestão de Fluxo de Telas */
+.screen {
+    display: none;
+    width: 100%; height: 100%;
+    position: absolute; top: 0; left: 0;
+    overflow: hidden; /* Evita que elementos internos forcem a rolagem externa */
+}
+.screen.active {
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- PASSO 1: INTRODUÇÃO --- */
+.intro-container { margin: auto; text-align: center; }
+.game-logo { font-size: 50px; color: #ff3366; letter-spacing: 4px; text-shadow: 5px 5px 0 #000, 0 0 30px rgba(255,51,102,0.6); }
+.game-sublogo { font-size: 14px; color: #fff; margin-top: 15px; letter-spacing: 2px; }
+.prompt-blink { font-size: 9px; color: #64748b; margin: 40px 0; animation: blink 1.2s infinite; }
+@keyframes blink { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
+.pulse-btn {
+    padding: 18px 36px; background: #00ffcc; color: #000; border: 4px solid #fff;
+    font-size: 11px; cursor: pointer; box-shadow: 5px 5px 0 #000;
+}
+.pulse-btn:hover { background: #fff; transform: scale(1.05); }
+
+/* --- PASSO 2: SELEÇÃO GIGANTE --- */
+.selection-container { width: 95%; max-width: 1100px; margin: auto; padding: 20px; }
+.text-center { text-align: center; margin-bottom: 25px; font-size: 18px; color: #00ffcc; }
+.large-profile-view { display: flex; gap: 30px; background: #0b1329; border: 4px solid #fff; box-shadow: 8px 8px 0px #000; padding: 25px; min-height: 460px; }
+.thumbs-column { display: flex; flex-direction: column; gap: 12px; flex: 0.8; }
+.thumb-item { display: flex; align-items: center; gap: 15px; background: #111d3a; border: 3px solid #1e293b; padding: 10px; cursor: pointer; }
+.thumb-item img { width: 45px; height: 45px; object-fit: contain; image-rendering: pixelated; }
+.thumb-item span { font-size: 9px; }
+.thumb-item:hover, .thumb-item.active { border-color: #00ffcc; background: #1a2e5c; }
+.giant-display { flex: 2.2; display: flex; gap: 25px; background: #050a14; border: 3px solid #1e293b; padding: 20px; }
+.giant-frame { flex: 1; display: flex; align-items: center; justify-content: center; background: #02040a; border: 3px solid #ff3366; }
+.giant-frame img { height: 280px; width: auto; object-fit: contain; image-rendering: pixelated; }
+.giant-info { flex: 1.3; display: flex; flex-direction: column; justify-content: center; }
+.giant-info h3 { font-size: 16px; color: #ff3366; margin-bottom: 12px; }
+.giant-info p { font-size: 8px; line-height: 1.6; color: #94a3b8; margin-bottom: 20px; }
+.stats-holder { display: flex; flex-direction: column; gap: 10px; }
+.stat-bar-row { display: flex; align-items: center; justify-content: space-between; font-size: 8px; }
+.stat-label { width: 60px; color: #00ffcc; }
+.stat-bg { flex-grow: 1; height: 12px; background: #1e293b; border: 2px solid #000; margin-left: 10px; }
+.stat-fill { height: 100%; background: #00ffcc; width: 0%; transition: width 0.4s ease; }
+.central-btn { display: block; margin: 25px auto 0 auto; padding: 15px 30px; background: #ff3366; border: 4px solid #fff; color: #fff; font-size: 11px; cursor: pointer; box-shadow: 4px 4px 0 #000; }
+.central-btn:hover { background: #ff5588; }
+
+/* --- PASSO 3: ARENA DE JOGO --- */
+.game-container { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; background: #040814; transition: background 0.3s ease; }
+.main-title { margin-top: 25px; font-size: 14px; text-shadow: 2px 2px #000; text-align: center; transition: color 0.2s, text-shadow 0.2s; }
+.progress-dots { display: flex; gap: 15px; margin: 12px 0; }
+.dot { width: 18px; height: 18px; background: #223863; border: 3px solid #000; }
+.dot.active { background: #00ffcc; border-color: #fff; box-shadow: 0 0 12px #00ffcc; }
+.feedback-message { font-size: 10px; min-height: 20px; text-align: center; margin-bottom: 5px; }
+.feedback-message.error { color: #ff3366; }
+.feedback-message.success { color: #00ffcc; animation: pulseGlow 0.5s infinite alternate; }
+@keyframes pulseGlow { from { text-shadow: 0 0 5px #00ffcc; } to { text-shadow: 0 0 15px #00ffcc; } }
+
+.hockey-arena { width: 100%; flex-grow: 1; background: url('./img/hockey-arena.png') no-repeat center center; background-size: 100% 100%; position: relative; image-rendering: pixelated; }
+#trail-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 6; }
+.player-slot { position: absolute; bottom: 35%; display: flex; flex-direction: column; align-items: center; cursor: pointer; z-index: 10; }
+#char-1 { left: 8%; width: 16%; }
+#char-2 { left: 31%; width: 16%; }
+#char-3 { left: 54%; width: 16%; }
+#char-4 { left: 77%; width: 16%; }
+
+.player-img { 
+    height: 180px; width: auto; 
+    object-fit: contain; 
+    image-rendering: pixelated; 
+    transition: filter 0.2s, transform 0.2s; 
+}
+
+.player-name { margin-top: 10px; font-size: 9px; background: #000; border: 2px solid #fff; padding: 6px 12px; box-shadow: 3px 3px 0 #000; color: #fff; transition: all 0.2s; }
+.player-slot.hit .player-name { background: #00ffcc; color: #000; border-color: #fff; box-shadow: 0 0 15px #00ffcc; }
+.laser-svg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 5; }
+.laser-line { opacity: 0; stroke: #00ffcc; stroke-width: 3; }
+.puck-disk { position: absolute; bottom: 12%; left: 50%; transform: translateX(-50%); width: 38px; height: 18px; background: #111; border-radius: 50%; border: 3px solid #fff; box-shadow: 0 4px 0 #000; cursor: grab; z-index: 20; }
+.puck-disk.dragging { cursor: grabbing; border-color: #00ffcc; box-shadow: 0 0 20px #00ffcc, 0 4px 0 #000; }
+
+.game-container.arrastando-puck .main-title { color: #00d2ff; text-shadow: 0 0 15px #00d2ff, 2px 2px #000; }
+.game-container.arrastando-puck .player-name:not(.hit) { border-color: #00d2ff; box-shadow: 0 0 10px rgba(0, 210, 255, 0.6), 3px 3px 0 #000; }
+.game-container.arrastando-puck .player-img { filter: drop-shadow(0 0 8px rgba(0, 210, 255, 0.5)); }
+
+/* --- PASSO 4: MURAL ACADÊMICO ORIGINAL --- */
+.mural-container { width: 90%; max-width: 1000px; margin: auto; padding: 20px; text-align: center; }
+.mural-title { font-size: 22px; color: #00ffcc; margin-bottom: 10px; text-shadow: 3px 3px #000; }
+.mural-subtitle { font-size: 9px; color: #64748b; margin-bottom: 40px; }
+.mural-grid { display: flex; gap: 25px; justify-content: center; flex-wrap: wrap; }
+.course-card { background: #0b1329; border: 4px solid #1e293b; padding: 30px 20px; width: 280px; box-shadow: 6px 6px 0 #000; transition: all 0.2s ease; }
+.course-card.active { border-color: #00ffcc; background: #112240; }
+.course-card.locked { opacity: 0.4; background: #070d1a; }
+.course-icon { font-size: 36px; margin-bottom: 15px; }
+.course-card h3 { font-size: 11px; margin-bottom: 12px; }
+.course-card.active h3 { color: #00ffcc; }
+.course-card .description { font-size: 8px; color: #94a3b8; line-height: 1.4; margin-bottom: 20px; }
+.status-tag { display: inline-block; font-size: 8px; padding: 4px 8px; background: #1e293b; border: 1px solid #fff; cursor: pointer; }
+.course-card.active .status-tag { background: #00ffcc; color: #000; border-color: #fff; box-shadow: 4px 4px 0px #000; }
+.course-card.active .status-tag:hover { background: #fff; }
+
+/* --- PASSO 5: TELA DE LOGIN --- */
+.login-wrapper { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; background: #030712; }
+.login-box { background: #02050a; border: 4px solid #fff; padding: 35px; width: 90%; max-width: 440px; text-align: center; box-shadow: 8px 8px 0px #000; }
+.avatar-holder { width: 80px; height: 80px; background: #000; border: 3px solid #ff3366; margin: 0 auto 20px auto; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+.avatar-holder img { width: 100%; height: 100%; object-fit: cover; image-rendering: pixelated; }
+.login-title { font-size: 11px; margin-bottom: 25px; color: #fff; line-height: 1.4; }
+.input-group { margin-bottom: 20px; text-align: left; }
+.input-group label { display: block; font-size: 8px; color: #a0aec0; margin-bottom: 8px; }
+.input-group input { width: 100%; font-family: 'Press Start 2P', monospace; font-size: 11px; padding: 12px; background: #000; border: 3px solid #223863; color: #fff; outline: none; }
+.input-group input:focus { border-color: #00ffcc; color: #00ffcc; }
+.btn-enter { width: 100%; padding: 14px; background: #ff3366; border: 3px solid #fff; color: #fff; font-size: 11px; cursor: pointer; box-shadow: 4px 4px 0 #000; }
+.btn-enter:hover { background: #ff5588; }
+.success-toast { color: #00ffcc; font-size: 10px; margin-top: 20px; display: none; }
+
+/* --- PASSO 6: NOVO MURAL DE FOTOS POLAROID --- */
+.offcampus-container { 
+    width: 95%; max-width: 1100px; margin: auto; padding: 20px; text-align: center;
+    max-height: 95vh; 
+    overflow-y: auto; /* Permite rolar internamente se faltar espaço */
+}
+
+/* Esconde a barra de rolagem estética interna no Chrome/Edge para manter o visual limpo */
+.offcampus-container::-webkit-scrollbar {
+    display: none;
+}
+
+.offcampus-title { font-size: 20px; color: #00ffcc; margin-bottom: 10px; text-shadow: 3px 3px #000; }
+.offcampus-subtitle { font-size: 9px; color: #64748b; margin-bottom: 35px; }
+.offcampus-grid { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; padding: 10px; }
+
+.polaroid-card {
+    background: #ffffff; padding: 12px 12px 22px 12px; width: 190px;
+    box-shadow: 6px 6px 0px #000; border: 3px solid #000;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.polaroid-card:nth-child(5n+1) { transform: rotate(-3deg); }
+.polaroid-card:nth-child(5n+2) { transform: rotate(2deg); }
+.polaroid-card:nth-child(5n+3) { transform: rotate(-1deg); }
+.polaroid-card:nth-child(5n+4) { transform: rotate(3deg); }
+.polaroid-card:nth-child(5n+5) { transform: rotate(-2deg); }
+
+.polaroid-card:hover {
+    transform: scale(1.08) rotate(0deg) !important;
+    box-shadow: 0 0 20px rgba(0, 255, 204, 0.7), 6px 6px 0px #000;
+    z-index: 50;
+}
+
+.photo-frame { width: 100%; height: 135px; background: #111; border: 2px solid #000; overflow: hidden; }
+.photo-frame img { width: 100%; height: 100%; object-fit: cover; }
+.photo-caption { margin-top: 12px; font-size: 8px; color: #000; text-align: center; font-weight: bold; }

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Briar University Hawks</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="screen-intro" class="screen active">
+        <div class="intro-container">
+            <h1 class="pixel-text game-logo">BRIAR HAWKS</h1>
+            <p class="pixel-text game-sublogo">Temporada de Hockey no Gelo</p>
+            <p class="pixel-text prompt-blink">Pressione o botão para iniciar a partida</p>
+            <button id="btn-start" class="pixel-text pulse-btn">START</button>
+        </div>
+    </div>
+
+    <div id="screen-selection" class="screen">
+        <div class="selection-container">
+            <h2 class="pixel-text text-center">SELECIONE SEU ATLETA HAWK</h2>
+            
+            <div class="large-profile-view">
+                <div class="thumbs-column">
+                    <div class="thumb-item active" data-char="garrett">
+                        <img src="./img/garrett.png" alt="Garrett">
+                        <span class="pixel-text">Garrett</span>
+                    </div>
+                    <div class="thumb-item" data-char="logan">
+                        <img src="./img/logan.png" alt="Logan">
+                        <span class="pixel-text">Logan</span>
+                    </div>
+                    <div class="thumb-item" data-char="dean">
+                        <img src="./img/dean.png" alt="Dean">
+                        <span class="pixel-text">Dean</span>
+                    </div>
+                    <div class="thumb-item" data-char="tucker">
+                        <img src="./img/tucker.png" alt="Tucker">
+                        <span class="pixel-text">Tucker</span>
+                    </div>
+                </div>
+
+                <div id="giant-display" class="giant-display"></div>
+            </div>
+
+            <button id="btn-confirm-character" class="central-btn pixel-text">CONFIRMAR</button>
+        </div>
+    </div>
+
+    <div id="screen-game" class="screen">
+        <div class="game-container">
+            <h2 id="game-title" class="pixel-text main-title">COMPLETE A FORMAÇÃO DO TIME.</h2>
+            
+            <div class="progress-dots">
+                <div id="dot-1" class="dot"></div>
+                <div id="dot-2" class="dot"></div>
+                <div id="dot-3" class="dot"></div>
+            </div>
+
+            <p id="game-message" class="pixel-text feedback-message"></p>
+
+            <div id="arena-surface" class="hockey-arena">
+                <canvas id="trail-canvas"></canvas>
+                
+                <svg class="laser-svg">
+                    <line id="line-1" x1="0" y1="0" x2="0" y2="0" class="laser-line" />
+                    <line id="line-2" x1="0" y1="0" x2="0" y2="0" class="laser-line" />
+                </svg>
+
+                <div id="char-1" class="player-slot" data-id="1">
+                    <img class="player-img" src="./img/logan.png" alt="Logan">
+                    <div class="pixel-text player-name">LOGAN</div>
+                </div>
+                <div id="char-2" class="player-slot" data-id="2">
+                    <img class="player-img" src="./img/garrett.png" alt="Garrett">
+                    <div class="pixel-text player-name">GARRETT</div>
+                </div>
+                <div id="char-3" class="player-slot" data-id="3">
+                    <img class="player-img" src="./img/dean.png" alt="Dean">
+                    <div class="pixel-text player-name">DEAN</div>
+                </div>
+                <div id="char-4" class="player-slot" data-id="4">
+                    <img class="player-img" src="./img/tucker.png" alt="Tucker">
+                    <div class="pixel-text player-name">TUCKER</div>
+                </div>
+
+                <div id="puck" class="puck-disk"></div>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-mural-original" class="screen">
+        <div class="mural-container">
+            <h2 class="pixel-text mural-title">MURAL DO CAMPUS BRIAR</h2>
+            <p class="pixel-text mural-subtitle">ESCOLHA SUA PRÓXIMA FASE ACADÊMICA</p>
+            
+            <div class="mural-grid">
+                <div class="course-card active">
+                    <div class="course-icon">🎓</div>
+                    <h3 class="pixel-text">PORTAL DE GRADUAÇÃO</h3>
+                    <p class="pixel-text description">ÚLTIMO PASSO! VALIDE SUAS CREDENCIAIS DE ESTUDANTE PARA CONCLUIR A MATRÍCULA.</p>
+                    <span id="btn-next-to-login" class="pixel-text status-tag disponível">DISPONÍVEL</span>
+                </div>
+                <div class="course-card locked">
+                    <div class="course-icon">🧬</div>
+                    <h3 class="pixel-text">BIOLOGIA DO CAMPUS</h3>
+                    <p class="pixel-text description">FASE 2: ANATOMIA DOS VESTIÁRIOS.</p>
+                    <span class="pixel-text status-tag bloqueado">BLOQUEADO</span>
+                </div>
+                <div class="course-card locked">
+                    <div class="course-icon">🏛️</div>
+                    <h3 class="pixel-text">HISTÓRIA DE BRIAR</h3>
+                    <p class="pixel-text description">FASE 3: O LEGADO DOS HAWKS.</p>
+                    <span class="pixel-text status-tag bloqueado">BLOQUEADO</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="screen-login" class="screen">
+        <div class="login-wrapper">
+            <form id="hawks-login-form" class="login-box">
+                <div class="avatar-holder">
+                    <img src="./img/Alliw.png" alt="User Avatar" onerror="this.src='./img/garrett.png'">
+                </div>
+                <h2 class="pixel-text login-title">BEM-VINDO À UNIVERSIDADE BRIAR</h2>
+                
+                <div class="input-group">
+                    <label class="pixel-text">NOME DE USUÁRIO</label>
+                    <input type="text" id="input-username" placeholder="Digite seu usuário..." required>
+                </div>
+                <div class="input-group">
+                    <label class="pixel-text">SENHA</label>
+                    <input type="password" id="input-password" placeholder="******" required>
+                </div>
+
+                <button type="submit" class="pixel-text btn-enter">ENTRAR NO CAMPUS</button>
+                <p id="login-success" class="pixel-text success-toast">ACESSO PERMITIDO ✓</p>
+            </form>
+        </div>
+    </div>
+
+    <div id="screen-mural" class="screen">
+        <div class="offcampus-container">
+            <h2 class="pixel-text offcampus-title">MURAL DO CAMPUS BRIAR</h2>
+            <p class="pixel-text offcampus-subtitle">CONFIRA OS MELHORES MOMENTOS DA TEMPORADA OFF-CAMPUS</p>
+            
+            <div class="offcampus-grid">
+                <div class="polaroid-card">
+                    <div class="photo-frame"><img src="./img/migos.png" alt="Viagem dos Hawks"></div>
+                    <div class="photo-caption pixel-text">RESENHA DOS HAWKS</div>
+                </div>
+                
+                <div class="polaroid-card">
+                    <div class="photo-frame"><img src="./img/migos5.png" alt="Festa no Malone's"></div>
+                    <div class="photo-caption pixel-text">FESTA NO MALONE'S</div>
+                </div>
+                
+                <div class="polaroid-card">
+                    <div class="photo-frame"><img src="./img/migos2.png" alt="Cozinhando em Casa"></div>
+                    <div class="photo-caption pixel-text">COZINHANDO EM CASA</div>
+                </div>
+                
+                <div class="polaroid-card">
+                    <div class="photo-frame"><img src="./img/migos3.png" alt="Foco no Rinque"></div>
+                    <div class="photo-caption pixel-text">FOCO NO RINQUE</div>
+                </div>
+                
+                <div class="polaroid-card">
+                    <div class="photo-frame"><img src="./img/migos4.png" alt="Foto no Vestiário"></div>
+                    <div class="photo-caption pixel-text">FOTO NO VESTIÁRIO</div>
+                </div>
+            </div>
+
+            <button id="btn-finish-game" class="central-btn pixel-text">CONCLUIR JOGO</button>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
